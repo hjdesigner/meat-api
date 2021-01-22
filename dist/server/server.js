@@ -4,7 +4,7 @@ exports.Server = void 0;
 const restify = require("restify");
 const environment_1 = require("../common/environment");
 class Server {
-    initRoutes() {
+    initRoutes(routers) {
         return new Promise((resolve, reject) => {
             try {
                 this.application = restify.createServer({
@@ -12,12 +12,9 @@ class Server {
                     version: '1.0.0'
                 });
                 this.application.use(restify.plugins.queryParser());
-                this.application.get('/hello', (req, resp, next) => {
-                    resp.json({
-                        message: 'hello'
-                    });
-                    return next();
-                });
+                for (let router of routers) {
+                    router.applyRoutes(this.application);
+                }
                 this.application.listen(environment_1.environment.server.port, () => {
                     resolve(this.application);
                 });
@@ -27,8 +24,8 @@ class Server {
             }
         });
     }
-    bootstrap() {
-        return this.initRoutes().then(() => this);
+    bootstrap(routers = []) {
+        return this.initRoutes(routers).then(() => this);
     }
 }
 exports.Server = Server;
