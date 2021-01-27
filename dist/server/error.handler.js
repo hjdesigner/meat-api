@@ -31,6 +31,7 @@ const handleError = (req, resp, err, done) => {
                 messages.push({ message: err.errors[name].message });
             }
             err.toJSON = () => ({
+                message: 'ValidationError error while processing yout request',
                 errors: messages
             });
             break;
