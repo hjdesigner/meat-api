@@ -6,7 +6,7 @@
     "skipLibCheck": true
   },
   "exclude": [
-    "**/*.test.js",
+    "**/*.test.ts",
     "node_modules",
     "./node_modules",
     "./node_modules/*",
